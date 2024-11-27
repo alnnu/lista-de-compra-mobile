@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
+import ItenCard from "@/components/ItenCard";
+import {ItemType} from "@/types/ItemType";
 
 export default function RootLayout() {
 
@@ -10,6 +12,8 @@ export default function RootLayout() {
     const handleChangeTab = (tabName: string) => {
         setSelectedTab(tabName)
     }
+
+
 
     return (
         <View style={{paddingHorizontal: 16, paddingVertical: 12}}>
@@ -22,7 +26,6 @@ export default function RootLayout() {
                     ))
                 }
             </View>
-
             <View>
                 <Text style={{ textAlign: "center", fontSize: 24, fontWeight: "bold", marginTop: 20 }}>Em breve</Text>
             </View>
