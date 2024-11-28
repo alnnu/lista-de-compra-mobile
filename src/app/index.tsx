@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {FlatList, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, Text, TextInput, TouchableOpacity, View} from "react-native";
 import ItemService from "@/services/ItemService";
 import {ItemType} from "@/types/ItemType";
 import ItenCard from "@/components/ItenCard";
@@ -15,6 +15,8 @@ export default function RootLayout() {
     const [selectedTab, setSelectedTab] = useState<string>("list")
 
     const [Itens, setItens] = useState<ItemType[]>([])
+
+    const [searchText, setSearchText] = useState<string>("")
 
     const handleChangeTab = (tabName: string) => {
         setSelectedTab(tabName)
@@ -39,15 +41,33 @@ export default function RootLayout() {
                 }
             </View>
             <View>
+
                 {
                     selectedTab == "allItens" && <>
                         {
                             Itens.length > 0
                                 ?
-                                <FlatList data={Itens} keyExtractor={(item) => item.id.toString()} renderItem={
-                                    ({item}) => <ItenCard item={item} onAddPress={() => console.log("a")}
-                                                          onRemovePress={() => console.log("a")} isSelect={false}/>
-                                }/>
+                                <>
+                                    <TextInput style={{
+                                        width: "100%",
+                                        borderColor: "lightblue",
+                                        borderStyle: "solid",
+                                        borderWidth: 2,
+                                        paddingHorizontal: 8,
+                                        paddingVertical: 10,
+                                        marginTop: 15,
+                                        marginBottom: 18,
+                                        borderRadius: 18
+                                    }} placeholder="Busque itens aqui"
+                                    onChangeText={(text) => {setSearchText(text)
+                                   }}
+                                    />
+
+                                    <FlatList data={Itens.filter((iten) => iten.nome.toLowerCase().includes(searchText.toLowerCase()))} keyExtractor={(item) => item.id.toString()} renderItem={
+                                        ({item}) => <ItenCard item={item} onAddPress={() => console.log("a")}
+                                                              onRemovePress={() => console.log("a")} isSelect={false}/>
+                                    }/>
+                                </>
                                 :
                                 <Text style={{textAlign: "center", fontSize: 24, fontWeight: "bold", marginTop: 20}}>Sem
                                     Itens</Text>
