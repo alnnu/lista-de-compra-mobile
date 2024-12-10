@@ -23,11 +23,11 @@ export default function RootLayout() {
     const [searchText, setSearchText] = useState<string>("")
 
     const handleChangeTab = (tabName: string) => {
+        setSearchText("")
         setSelectedTab(tabName)
     }
 
     ItemService.getItens().then((res) => {
-        setSearchText("")
         setItens(res.data)
 
     })
@@ -40,6 +40,10 @@ export default function RootLayout() {
     function handlerAddIten (item:ItemType) {
         if (activeList) {
             ListService.addIten(item, activeList.id).then((res) => {
+                setActiveList(res.data)
+            })
+        }else {
+            ListService.create(item).then((res) => {
                 setActiveList(res.data)
             })
         }
